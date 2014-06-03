@@ -2,6 +2,7 @@
 SetWorkingDir %A_ScriptDir%
 CoordMode, Mouse, Window
 SetTitleMatchMode 2
+SetTitleMatchMode RegEx
 DetectHiddenWindows On
 SetControlDelay 1
 SetKeyDelay -1
@@ -18,6 +19,7 @@ F7::
 		;get a list of all windows with title "EVE - *" and save to %EVEWindow%
 		WinGet, EVEWindow, List, EVE - \w+
 		Counter = 0
+		;MsgBox, %EVEWindow%
 	}
 
 	;if EVEWindow is not empty
@@ -29,7 +31,6 @@ F7::
 			Loop, %EVEWindow%
 			{
 				;MsgBox, %A_index%
-				;Sleep, 100
 				this_id := EVEWindow%A_Index%
 				WinActivate, ahk_id %this_id%
 				WinGetClass, this_class, ahk_id %this_id%
@@ -40,7 +41,7 @@ F7::
 			}
 		}else ;if only 1 eve client
 		{
-			this_id := EVEWindow%A_Index%
+			this_id := EVEWindow1
 			WinActivate, ahk_id %this_id%
 			WinGetClass, this_class, ahk_id %this_id%
 			WinGetTitle, this_title, ahk_id %this_id%
@@ -48,21 +49,21 @@ F7::
 			MsgBox, %this_title%
 			;Main(Width, Height)
 		}
-	}else ;test return 0 if no EVE windows with characters
+	}else
 	{
-		MsgBox, %EVEWindow%
+		;MsgBox, %EVEWindow%
 	}
 return
 
-F8::
-ROX:
-IfWinExist, EVE - ROX ahk_class triuiScreen
-{
-	WinActivate, EVE - ROX ahk_class triuiScreen
-	WinGetPos, , , Width, Height, EVE - ROX
-	Main(Width, Height)
-}
-Return
+;F8::
+;ROX:
+;IfWinExist, EVE - ROX ahk_class triuiScreen
+;{
+;	WinActivate, EVE - ROX ahk_class triuiScreen
+;	WinGetPos, , , Width, Height, EVE - ROX
+;	Main(Width, Height)
+;}
+;Return
 
 Main(Width, Height){
 	InitialMove()
