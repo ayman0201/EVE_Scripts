@@ -35,19 +35,33 @@ Main(Width, Height){
 	InitialMove()
 
 	CoordMode, Pixel, Relative
-	ImageSearch, FoundX, FoundY, 0, 0, Width, Height, *90 Resources\WL.png
+	ImageSearch, FoundX, FoundY, 0, 0, Width, Height, *90 Resources\CH.png
+	;added image search to get the bottom left of the brodcast window
+	ImageSearch, FoundX2, FoundY2, 0, 0, Width, Height, *90 Resources\BC.png
 	Sleep, 10
 	If ErrorLevel = 0
 	{
 		;MsgBox, %FoundX%x%FoundY% 2
-		Orbit(FoundX, FoundY)
-		ClickLock(FoundX, FoundY)
+		TargetRed(FoundX2, FoundY2, FoundX, FoundY)
 		Sleep, 50
 	}
 
 	;CheckAfterburner()
 	
 	;CheckResistance()
+}
+
+;method for targeting red
+TargetRed(X1, Y1, X2, Y2){
+	CoordMode, Pixel, Relative
+	ImageSearch, FoundX, FoundY, X1, Y1, X2, Y2, *50 Resources\TG.png
+	if ErrorLevel = 0
+	{
+		Loop 
+		{
+			
+		}
+	}
 }
 
 CheckAfterburner(){
