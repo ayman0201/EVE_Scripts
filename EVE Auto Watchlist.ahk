@@ -12,21 +12,54 @@ SetBatchLines -1
 #SingleInstance force
 
 F7::
+	if Counter != 0
+	{
+		;WinGet, EVEWindow, List, ahk_class triuiScreen
+		;get a list of all windows with title "EVE - *" and save to %EVEWindow%
+		WinGet, EVEWindow, List, EVE - \w+
+		Counter = 0
+	}
+
+	;if EVEWindow is not empty
+	if EVEWindow != 0
+	{
+		;if EVEWindow has more than 1 eve client
+		if EVEWindow != 1
+		{
+			Loop, %EVEWindow%
+			{
+				;MsgBox, %A_index%
+				;Sleep, 100
+				this_id := EVEWindow%A_Index%
+				WinActivate, ahk_id %this_id%
+				WinGetClass, this_class, ahk_id %this_id%
+				WinGetTitle, this_title, ahk_id %this_id%
+				WinGetPos, , , Width, Height, ahk_id %this_id%
+				MsgBox, %this_title%
+				;Main(Width, Height)
+			}
+		}else ;if only 1 eve client
+		{
+			this_id := EVEWindow%A_Index%
+			WinActivate, ahk_id %this_id%
+			WinGetClass, this_class, ahk_id %this_id%
+			WinGetTitle, this_title, ahk_id %this_id%
+			WinGetPos, , , Width, Height, ahk_id %this_id%
+			MsgBox, %this_title%
+			;Main(Width, Height)
+		}
+	}else ;test return 0 if no EVE windows with characters
+	{
+		MsgBox, %EVEWindow%
+	}
+return
+
+F8::
 ROX:
 IfWinExist, EVE - ROX ahk_class triuiScreen
 {
 	WinActivate, EVE - ROX ahk_class triuiScreen
 	WinGetPos, , , Width, Height, EVE - ROX
-	Main(Width, Height)
-}
-Return
-
-F8::
-Kalivera:
-IfWinExist, EVE - Kalivera ahk_class triuiScreen
-{
-	WinActivate, EVE - Kalivera ahk_class triuiScreen
-	WinGetPos, , , Width, Height, EVE - Kalivera
 	Main(Width, Height)
 }
 Return
